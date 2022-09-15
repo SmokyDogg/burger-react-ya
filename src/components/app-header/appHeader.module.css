@@ -1,0 +1,31 @@
+.header {
+    width: 100%;
+    margin: auto;
+    display: grid;
+    grid-template-columns: 1fr max-content 1fr;
+    align-items: center;
+    box-sizing: border-box;
+    grid-area: header;
+    background-color:  #1C1C21;
+}
+
+.list {
+    list-style-type: none;
+    margin: 0;
+    display: flex;
+    gap: 8px;
+    flex-direction: row;
+    justify-content: flex-start;
+    box-sizing: border-box;
+    cursor: pointer;
+}
+
+.list__item {
+    display: flex;
+    column-gap: 8px;
+}
+.profile {
+    composes: list__item;
+    justify-self: end;
+    cursor: pointer;
+}
