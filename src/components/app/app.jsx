@@ -6,7 +6,7 @@ import BurgerConstructor from "../burger-constructor/burger-constructor";
 import OrderDetails from "../order-details/order-details";
 import IngredientDetails from "../ingredient-details/ingredient-details";
 import Modal from "../modal/modal";
-import { BASE_API_URL } from "../../utils/constants";
+import { ingredientsLink } from "../../utils/constants";
 
 const App = () => {
   const [ingredients, setIngredients] = useState([]);
@@ -21,7 +21,7 @@ const App = () => {
   const [openIngredientDetails, setOpenIngredientDetails] = useState(false);
 
   const apiRequest = async () => {
-    const res = await fetch(`${BASE_API_URL}`);
+    const res = await fetch(`${ingredientsLink}`);
     if (res.ok) {
       return res.json();
     }
