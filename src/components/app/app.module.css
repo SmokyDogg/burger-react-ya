@@ -1,7 +1,12 @@
 .app__layout {
     margin: auto;
     max-width: 1280px;
-    display: grid;
-    grid-template-areas: "header header" "ingredients constructor";
+    display: flex;
+    flex-direction: column;
     justify-items: center;
+}
+.main {
+    display: flex;
+    margin: auto;
+    gap: 40px;
 }
