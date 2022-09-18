@@ -5,8 +5,9 @@ import BurgerIngredients from "../burger-ingredients/burger-ingredients";
 import BurgerConstructor from "../burger-constructor/burger-constructor";
 import OrderDetails from "../order-details/order-details";
 import IngredientDetails from "../ingredient-details/ingredient-details";
-import { ingredientsLink } from "../../utils/constants";
 import Modal from "../modal/modal";
+import { ingredientsLink } from "../../utils/constants";
+import { BASE_API_URL } from "../../utils/constants";
 
 const App = () => {
   const [ingredients, setIngredients] = useState([]);
@@ -21,7 +22,7 @@ const App = () => {
   const [openIngredientDetails, setOpenIngredientDetails] = useState(false);
 
   const apiRequest = async () => {
-    const res = await fetch(`${ingredientsLink.url}`);
+    const res = await fetch(`${BASE_API_URL}`);
     if (res.ok) {
       return res.json();
     }
@@ -68,13 +69,13 @@ const App = () => {
       <AppHeader />
       <main className={styles.main}>
         {status.hasError && <p>Ошибка получения данных с сервера</p>}
-        {ingredients.length && !status.hasError && (
+        {!!ingredients.length && !status.hasError && (
           <BurgerIngredients
             data={ingredients}
             openModalIngredient={openModalIngredient}
           />
         )}
-        {ingredients.length && !status.hasError && (
+        {!!ingredients.length && !status.hasError && (
           <BurgerConstructor
             data={ingredients}
             openModalOrder={openModalOrder}
