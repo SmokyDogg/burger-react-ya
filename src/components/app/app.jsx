@@ -6,7 +6,6 @@ import BurgerConstructor from "../burger-constructor/burger-constructor";
 import OrderDetails from "../order-details/order-details";
 import IngredientDetails from "../ingredient-details/ingredient-details";
 import Modal from "../modal/modal";
-import { ingredientsLink } from "../../utils/constants";
 import { BASE_API_URL } from "../../utils/constants";
 
 const App = () => {
