@@ -1,0 +1,7 @@
+.app__layout {
+    margin: auto;
+    max-width: 1280px;
+    display: grid;
+    grid-template-areas: "header header" "ingredients constructor";
+    justify-items: center;
+}
