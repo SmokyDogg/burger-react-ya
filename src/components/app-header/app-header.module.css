@@ -24,6 +24,12 @@
     display: flex;
     column-gap: 8px;
 }
+.link {
+    text-decoration: none;
+}
+.link_active {
+    color: #F2F2F3;
+}
 .profile {
     composes: list__item;
     justify-self: end;
