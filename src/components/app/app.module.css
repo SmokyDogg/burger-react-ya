@@ -1,12 +1,15 @@
-.app__layout {
-    margin: auto;
-    max-width: 1280px;
+.app_layout {
+    margin: 0 auto;
+    padding: 40px;
+    max-width: 1920px;
+    max-height: 1080px;
+    background: #131316;
+  }
+  .main {
     display: flex;
-    flex-direction: column;
-    justify-items: center;
-}
-.main {
-    display: flex;
-    margin: auto;
-    gap: 40px;
-}
+    flex-direction: row;
+    justify-content: center;
+    column-gap: 40px;
+    min-height: calc(100vh - 168px);
+  }
+  

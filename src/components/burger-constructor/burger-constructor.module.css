@@ -1,57 +1,43 @@
-.constructor {
-    max-width: 600px;
-    grid-area: constructor;
-    box-sizing: border-box;
-}
-
-.ingredients {
+.section {
     display: flex;
     flex-direction: column;
-    gap: 16px;
-}
-
-.list {
-    margin: 0;
-    padding-left: 0;
-    list-style-type: none;
-}
-
-.list_toppings {
-    composes: list;
-    max-height: calc(100vh - 284px - 252px);
-    overflow-y: scroll;
-    scrollbar-width: thin;
-}
-
-.list_toppings::-webkit-scrollbar {
+  }
+  .containerScroll {
+    flex: 1 1 auto;
+  }
+  .scrollTrack {
+    cursor: pointer;
+    background-color: #2f2f37;
+    right: 2px;
+    bottom: 2px;
+    top: 2px;
+    border-radius: 1px;
     width: 8px;
-}
-
-.list_toppings::-webkit-scrollbar-track {
-    background: #2f2f37;
-}
-
-.list_toppings::-webkit-scrollbar-thumb {
-    background: #8585ad;
-}
-
-.item__topping {
-    width: 100%;
+  }
+  .scrollThumb {
+    width: 8px;
+    border-radius: 3px;
+    background-color: #8585ad;
+  }
+  .ingredient {
     display: flex;
-    gap: 8px;
-    align-items: center;
-}
-
-.order {
-    display: grid;
-    grid-template-columns: 1fr 215px;
-    align-items: center;
-}
-
-.total__price {
-    justify-self: end;
-    box-sizing: border-box;
+    flex-direction: row;
+    column-gap: 9.5px;
+  }
+  .icon {
+    align-self: center;
+  }
+  .wrapperPrice {
     display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+    margin-bottom: 52px;
+  }
+  .containePrice {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
     align-items: center;
-    gap: 8px;
-}
+    column-gap: 9.5px;
+  }
+  

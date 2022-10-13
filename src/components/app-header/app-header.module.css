@@ -30,6 +30,9 @@
 .link_active {
     color: #F2F2F3;
 }
+.link:hover {
+    opacity: 0.6;
+  }
 .profile {
     composes: list__item;
     justify-self: end;
