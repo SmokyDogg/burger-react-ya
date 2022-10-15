@@ -66,8 +66,8 @@ const App = () => {
   }
 
   useEffect(() => {
-    getIngredientData()
-  }, [])
+    getIngredientData();
+  }, []);
 
   const closeModals = () => {
     setOpenOrderDetails(false);

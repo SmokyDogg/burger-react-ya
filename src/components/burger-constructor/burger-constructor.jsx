@@ -1,7 +1,6 @@
 import { useContext, useEffect, useCallback, useMemo} from 'react';
 import styles from "./burger-constructor.module.css";
 import PropTypes from "prop-types";
-import { ingredientType } from "../../utils/types";
 import {
   CurrencyIcon,
   Button,
@@ -24,7 +23,7 @@ const BurgerConstructor = ({ openModalOrder }) => {
   const priceCounting = useCallback(() => {
     if(bun.price){
       const price = ingredients.reduce((acc, topping) => {
-        const totalPrice = acc + (topping.type != "bun" ? topping.price : 0);
+        const totalPrice = acc + (topping.type !== "bun" ? topping.price : 0);
         return totalPrice + bun.price * 2;
       }, 0)
       priceDispatcher({type: 'counting', payload: price})

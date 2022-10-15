@@ -1,7 +1,6 @@
 import React, { useContext, useMemo, useRef, useState } from "react";
 import styles from "./burger-ingredients.module.css";
 import PropTypes from "prop-types";
-import { ingredientType } from "../../utils/types";
 import {
     Tab,
     CurrencyIcon,
@@ -19,17 +18,29 @@ export const BurgerIngredients = ({openModalIngredient}) => {
     const tabClick = (ref) => {
         ref.current.scrollIntoView({ behavior: "smooth"});
     }
-    return(
+
+    const currentBun = () => {setCurrent('bun'); tabClick(bunRef);}
+    const currentSauce = () => {setCurrent('sauce'); tabClick(sauceRef);}
+    const currentMain = () => {setCurrent('main'); tabClick(mainRef);}
+
+    const buns = useMemo(()=> 
+        ingredients.filter((ingredient) => ingredient.type === 'bun'), [ingredients, openModalIngredient]);
+    const sauces = useMemo(()=> 
+        ingredients.filter((ingredient) => ingredient.type === 'sauce'), [ingredients, openModalIngredient]);
+    const mains = useMemo(()=> 
+        ingredients.filter((ingredient) => ingredient.type === 'main'), [ingredients, openModalIngredient]);
+    
+        return(
         <section className={`${styles.section}`}> 
             <h1 className="text text_type_main-large mt-10 mb-5">Соберите бургер</h1>
-            <div style = {{display: 'flex'}} className='mb-10'>
-                <Tab value="bun" active={current === 'bun'} onClick={()=>{setCurrent('bun'); tabClick(bunRef);}}>
+            <div className={`${styles.df} mb-10`}>
+                <Tab value="bun" active={current === 'bun'} onClick={currentBun}>
                     Булки
                 </Tab>
-                <Tab value="sauce" active={current === 'sauce'} onClick={()=>{setCurrent('sauce'); tabClick(sauceRef);}}>
+                <Tab value="sauce" active={current === 'sauce'} onClick={currentSauce}>
                     Соусы
                 </Tab>
-                <Tab value="main" active={current === 'main'} onClick={()=>{setCurrent('main'); tabClick(mainRef);}}>
+                <Tab value="main" active={current === 'main'} onClick={currentMain}>
                     Начинки
                 </Tab>
             </div>
@@ -40,8 +51,7 @@ export const BurgerIngredients = ({openModalIngredient}) => {
                     <div ref={bunRef} className={`${styles.containerTopping}`}>
                         <h2 className={`${styles.title} text text_type_main-medium mb-6`}>Булки</h2>
                         <div className={`${styles.ingredients} mt-6 ml-4 mr-4 mb-10`}>
-                            {   useMemo(()=>
-                                ingredients.filter((ingredient) => ingredient.type === 'bun').map((ingredient) => (
+                            {   buns.map((ingredient) => (
                                     <div  key={ingredient._id} className={`${styles.ingredient}`} onClick={()=>{openModalIngredient(ingredient)}}>
                                         <Counter count={1} size="default" />
                                         <img src={ingredient.image} alt={ingredient.name}/>
@@ -54,15 +64,14 @@ export const BurgerIngredients = ({openModalIngredient}) => {
                                         </h3>
                                     </div>
                                 ))
-                                ,[ingredients, openModalIngredient])
+                                
                             }
                         </div>  
                     </div>
                     <div ref={sauceRef} className={`${styles.containerTopping}`}>
                         <h2 className={`${styles.title} text text_type_main-medium mb-6`}>Соусы</h2>
                         <div className={`${styles.ingredients} mt-6 ml-4 mr-4 mb-10`}>
-                            {   useMemo(()=>
-                                ingredients.filter((ingredient) => ingredient.type === 'sauce').map((ingredient) => (
+                            {   sauces.map((ingredient) => (
                                     <div  key={ingredient._id} className={`${styles.ingredient}`} onClick={()=>{openModalIngredient(ingredient)}}>
                                         <Counter count={1} size="default" />
                                         <img src={ingredient.image} alt={ingredient.name}/>
@@ -75,15 +84,13 @@ export const BurgerIngredients = ({openModalIngredient}) => {
                                         </h3>
                                     </div>
                                 ))
-                                ,[ingredients, openModalIngredient])
                             }
                         </div>  
                     </div>
                     <div ref={mainRef} className={`${styles.containerTopping}`}>
                         <h2 className={`${styles.title} text text_type_main-medium mb-6`}>Начинки</h2>
                         <div className={`${styles.ingredients} mt-6 ml-4 mr-4 mb-10`}>
-                            {   useMemo(()=>
-                                ingredients.filter((ingredient) => ingredient.type === 'main').map((ingredient) => (
+                            {   mains.map((ingredient) => (
                                     <div  key={ingredient._id} className={`${styles.ingredient}`} onClick={()=>{openModalIngredient(ingredient)}}>
                                         <Counter count={1} size="default" />
                                         <img src={ingredient.image} alt={ingredient.name}/>
@@ -96,7 +103,6 @@ export const BurgerIngredients = ({openModalIngredient}) => {
                                         </h3>
                                     </div>
                                 ))
-                                ,[ingredients, openModalIngredient])
                             }
                         </div>  
                     </div>

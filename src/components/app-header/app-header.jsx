@@ -32,7 +32,7 @@ const AppHeader = () => {
             <Logo />
             <div className={`${styles.profile} pr-5 pl-5 pt-4 pb-4`}>
                 <ProfileIcon type="secondary" />
-                <a className={`${styles.link} text text_type_main-default text_color_inactive`}>
+                <a href="./" className={`${styles.link} text text_type_main-default text_color_inactive`}>
                     Личный кабинет
                 </a>
             </div>
