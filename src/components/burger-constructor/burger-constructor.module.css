@@ -2,6 +2,11 @@
     display: flex;
     flex-direction: column;
   }
+  .onHover{
+    border-radius: 10%;
+    border: 1px solid #8585ad;
+    box-sizing: content-box;
+  }
   .containerScroll {
     flex: 1 1 auto;
   }

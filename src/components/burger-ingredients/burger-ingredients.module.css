@@ -37,7 +37,3 @@
   align-items: center;
   justify-content: start;
 }
-.ingredient {
-  position: relative;
-  cursor: pointer;
-}

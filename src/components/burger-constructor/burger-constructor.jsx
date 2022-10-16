@@ -1,102 +1,136 @@
-import { useContext, useEffect, useCallback, useMemo} from 'react';
+import { useCallback, useMemo } from "react";
 import styles from "./burger-constructor.module.css";
 import PropTypes from "prop-types";
 import {
   CurrencyIcon,
   Button,
   ConstructorElement,
-  DragIcon,
 } from "@ya.praktikum/react-developer-burger-ui-components";
-import { Scrollbars} from 'react-custom-scrollbars';
-import { DataContext } from "../../services/dataContext";
-import { BunContext } from "../../services/bunContext";
-import { PriceContext } from "../../services/priceContext";
+import { Scrollbars } from "react-custom-scrollbars";
+import uuid from "react-uuid";
+import image from "../../images/bun.png";
+import {ADD_BUN, ADD_INGREDIENT } from "../../services/actions/currentIngredients";
+import { IngredientConstructor } from "../ingredient-constructor/ingredient-constructor";
+import { useDrop } from 'react-dnd';
+import { useDispatch, useSelector } from 'react-redux';
 
 const BurgerConstructor = ({ openModalOrder }) => {
-  const {ingredients} = useContext(DataContext);
-  const {bun, setBun} = useContext(BunContext);
-  const {priceState, priceDispatcher} = useContext(PriceContext);
-  useEffect(() => {
-    const currentBun = ingredients.find((ingredient) => { return ingredient.type === 'bun'});
-    setBun(currentBun);
-  }, [ingredients, setBun]);
+  const ingredients = useSelector((store) => store.currentIngredients.currentIngredients);
+  const bun = useSelector((store) => store.currentIngredients.currentBun);
+  const dispatch = useDispatch();
   const priceCounting = useCallback(() => {
-    if(bun.price){
-      const price = ingredients.reduce((acc, topping) => {
-        const totalPrice = acc + (topping.type !== "bun" ? topping.price : 0);
-        return totalPrice + bun.price * 2;
-      }, 0)
-      priceDispatcher({type: 'counting', payload: price})
-    }
-  },[ingredients, bun.price, priceDispatcher]);
-  useEffect(() => {
-    priceCounting();
-  }, [bun.price, ingredients, priceCounting, priceState.price])
+    return (
+      (bun ? bun.price * 2 : 0) +
+      ingredients.reduce((acc, topping) => acc + topping.data.price, 0)
+    );
+  }, [ingredients, bun]);
 
   const bunRender = (position) => {
-    let currentType = '';
-    if(position === '(низ)'){
-      currentType = 'bottom';
+    let currentType = "";
+    if (position === "(низ)") {
+      currentType = "bottom";
     } else {
-      currentType = 'top';
+      currentType = "top";
     }
-    return (
-      <ConstructorElement
-        type={`${currentType}`}
-        isLocked={true}
-        text={`${bun.name} ${position}`}
-        price={bun.price}
-        thumbnail={bun.image}
-      />
-    )
-  }
+    if (bun) {
+      return (
+        <ConstructorElement
+          type={`${currentType}`}
+          isLocked={true}
+          text={`${bun.name} ${position}`}
+          price={bun.price}
+          thumbnail={bun.image}
+        />
+      );
+    } else {
+      return (
+        <ConstructorElement
+          type={`${currentType}`}
+          isLocked={true}
+          text="Булка не выбрана, выберите ее из списка"
+          price={0}
+          thumbnail={image}
+        />
+      );
+    }
+  };
+  const isDisabledButton = useMemo(() => {
+    if (ingredients.length > 0 && bun) return false;
+    else return true;
+  }, [ingredients, bun]);
 
+  const addBun = (item) => {
+    dispatch({ type: ADD_BUN, payload: item });
+  };
+  const addIngredient = (item) => {
+    dispatch({ type: ADD_INGREDIENT, payload: item });
+  };
 
+  const [{ isHover }, dropTarget] = useDrop({
+    accept: "ingredient",
+    collect: (monitor) => ({
+      isHover: monitor.isOver(),
+    }),
+    drop(item) {
+      if (item.ingredient.type === "bun") {
+        addBun(item.ingredient);
+      } else {
+        addIngredient(item.ingredient);
+      }
+    },
+  });
 
   return (
-    <section className={`${styles.section} pt-25`}>
-      <div className='mr-4 ml-4 mb-4 pl-8'>
-          {
-              bunRender('(верх)')
-          } 
-      </div>    
+    <section
+      className={`${styles.section} ${isHover ? styles.onHover : ""} pt-25`} ref={dropTarget}
+    >
+      <div className="mr-4 ml-4 mb-4 pl-8">{bunRender("(верх)")}</div>
       <div className={`${styles.containerScroll}`}>
-          <Scrollbars universal
-              renderTrackVertical={props => <div {...props} className={styles.scrollTrack}/>}
-              renderThumbVertical={props => <div {...props} className={styles.scrollThumb}/>}> 
-          
-                  {   useMemo(()=>
-                      ingredients.filter((ingredient) => (ingredient.type !== 'bun')).map((ingredient) => (
-                          <div  className={`${styles.ingredient} pl-4 pr-4 pb-4`} key={ingredient._id}>
-                              <div className={`${styles.icon}`}>
-                                  <DragIcon type="primary" />
-                              </div>
-                              <ConstructorElement
-                              text={ingredient.name}
-                              price={ingredient.price}
-                              thumbnail={ingredient.image}
-                              />
-                          </div>
-                      ))
-                      ,[ingredients])
-                  }   
-          </Scrollbars>
-      </div>
-      <div className='mr-4 ml-4 mt-4 pl-8'>
-          {
-              bunRender('(низ)')
-          }
-      </div>
-      <div className={`${styles.wrapperPrice} mt-10 mr-4`}>
-          <div className={`${styles.containePrice} mr-10`}>
-              <p className='text text_type_digits-medium'>
-                  {`${priceState.price}`}
+        <Scrollbars
+          universal
+          renderTrackVertical={(props) => (
+            <div {...props} className={styles.scrollTrack} />
+          )}
+          renderThumbVertical={(props) => (
+            <div {...props} className={styles.scrollThumb} />
+          )}
+        >
+          {useMemo(
+            () =>
+              ingredients
+                .filter((ingredient) => ingredient.data.type !== "bun")
+                .map((ingredient, index) => (
+                  <IngredientConstructor
+                    key={ingredient.uid}
+                    ingredient={ingredient}
+                    index={index}
+                  />
+                )),
+            [ingredients]
+          )}
+          {ingredients.length === 0 && (
+            <div className={`${styles.ingredient} pl-4 pr-4 pb-4`}>
+              <p className="text text_type_main-default">
+                Выберите ингредиенты
               </p>
-              <CurrencyIcon type="primary" />
-          </div>
-          <Button type="primary" size="large" onClick={openModalOrder}>
-              Оформить заказ
-          </Button>
+            </div>
+          )}
+        </Scrollbars>
+      </div>
+      <div className="mr-4 ml-4 mt-4 pl-8">{bunRender("(низ)")}</div>
+      <div className={`${styles.wrapperPrice} mt-10 mr-4`}>
+        <div className={`${styles.containePrice} mr-10`}>
+          <p className="text text_type_digits-medium">{priceCounting()}</p>
+          <CurrencyIcon type="primary" />
+        </div>
+        <Button
+          type="primary"
+          size="large"
+          disabled={isDisabledButton}
+          onClick={openModalOrder}
+        >
+          Оформить заказ
+        </Button>
       </div>
     </section>
   );
