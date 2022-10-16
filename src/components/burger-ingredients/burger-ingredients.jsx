@@ -60,7 +60,7 @@ export const BurgerIngredients = ({openModalIngredient}) => {
                       <h2  className={`${styles.title} text text_type_main-medium mb-6`}>Булки</h2>
                       <div className={`${styles.ingredients} mt-6 ml-4 mr-4 mb-10`}>
                           {   useMemo(()=>
-                              ingredients.filter((ingredient) => ingredient.type === 'bun').map((ingredient) => (
+                              ingredients?.filter((ingredient) => ingredient.type === 'bun').map((ingredient) => (
                                   <BurgerIngredient key={uuid()} ingredient={ingredient} openModalIngredient={openModalIngredient}/>
                               ))
                               ,[ingredients, openModalIngredient])
@@ -71,7 +71,7 @@ export const BurgerIngredients = ({openModalIngredient}) => {
                       <h2  className={`${styles.title} text text_type_main-medium mb-6`}>Соусы</h2>
                       <div className={`${styles.ingredients} mt-6 ml-4 mr-4 mb-10`}>
                           {   useMemo(()=>
-                              ingredients.filter((ingredient) => ingredient.type === 'sauce').map((ingredient) => (
+                              ingredients?.filter((ingredient) => ingredient.type === 'sauce').map((ingredient) => (
                                   <BurgerIngredient key={uuid()} ingredient={ingredient} openModalIngredient={openModalIngredient}/>
                               ))
                               ,[ingredients, openModalIngredient])
@@ -82,7 +82,7 @@ export const BurgerIngredients = ({openModalIngredient}) => {
                       <h2 className={`${styles.title} text text_type_main-medium mb-6`}>Начинки</h2>
                       <div className={`${styles.ingredients} mt-6 ml-4 mr-4 mb-10`}>
                           {   useMemo(()=>
-                              ingredients.filter((ingredient) => ingredient.type === 'main').map((ingredient) => (
+                              ingredients?.filter((ingredient) => ingredient.type === 'main').map((ingredient) => (
                                   <BurgerIngredient key={uuid()} ingredient={ingredient} openModalIngredient={openModalIngredient}/>
                               ))
                               ,[ingredients, openModalIngredient])

@@ -6,11 +6,11 @@ import {
   SWAP_INGREDIENT,
 } from "../actions/currentIngredients";
 
+
 const initialState = {
   currentIngredients: [],
   currentBun: null,
 };
-
 export const currentIngredientsReducer = (state = initialState, action) => {
   switch (action.type) {
     case ADD_BUN: {

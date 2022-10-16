@@ -44,7 +44,7 @@ const App = () => {
       .concat(currentBun._id);
   }, [currentBun, currentIngredients]);
   const openModalOrder = () => {
-    dispatch(getOrder(getIdIngredients));
+    dispatch(getOrder(getIdIngredients()));
     setOpenOrderDetails(true);
   };
 
