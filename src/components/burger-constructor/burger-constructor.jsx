@@ -64,7 +64,8 @@ export const BurgerConstructor = ({openModalOrder}) => {
       dispatch({type: ADD_BUN, payload: item });
   }
   const addIngredient = (item) =>{
-      dispatch({type:ADD_INGREDIENT, payload:item})
+    item.uid = uuid();
+    dispatch({type:ADD_INGREDIENT, payload: item})
   }
 
   const [{ isHover }, dropTarget] = useDrop({
@@ -95,7 +96,7 @@ export const BurgerConstructor = ({openModalOrder}) => {
               renderThumbVertical={props => <div {...props} className={styles.scrollThumb}/>}> 
                   {   useMemo(()=>
                       ingredients.filter((ingredient) => (ingredient.data.type !== 'bun')).map((ingredient,index) => (                        
-                          <IngredientConstructor key={ingredient.uid} ingredient={ingredient} index={index}/>
+                          <IngredientConstructor key={ingredient.data.uid} ingredient={ingredient} index={index}/>
                       ))
                       ,[ingredients])
                       

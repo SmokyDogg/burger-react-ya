@@ -1,4 +1,3 @@
-import uuid from "react-uuid";
 import {
   ADD_BUN,
   ADD_INGREDIENT,
@@ -11,7 +10,7 @@ const initialState = {
   currentIngredients: [],
   currentBun: null,
 };
-export const currentIngredientsReducer = (state = initialState, action, uid = uuid()) => {
+export const currentIngredientsReducer = (state = initialState, action) => {
   switch (action.type) {
     case ADD_BUN: {
       return {
@@ -24,7 +23,7 @@ export const currentIngredientsReducer = (state = initialState, action, uid = uu
         ...state,
         currentIngredients: [
           ...state.currentIngredients,
-          { uid: uid, data: action.payload },
+          {data: action.payload},
         ],
       };
     }
