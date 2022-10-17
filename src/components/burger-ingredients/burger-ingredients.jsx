@@ -7,7 +7,6 @@ import { useDispatch, useSelector } from "react-redux";
 import { useInView } from "react-intersection-observer";
 import { SET_CURRENT_TAB } from "../../services/actions/listIngredients";
 import { BurgerIngredient } from "../burger-ingredient.jsx/burger-ingredient";
-import uuid from "react-uuid";
 
 export const BurgerIngredients = ({openModalIngredient}) => {
   const ingredients = useSelector(store=>store.listIngredients.ingredients);
@@ -61,7 +60,7 @@ export const BurgerIngredients = ({openModalIngredient}) => {
                       <div className={`${styles.ingredients} mt-6 ml-4 mr-4 mb-10`}>
                           {   useMemo(()=>
                               ingredients?.filter((ingredient) => ingredient.type === 'bun').map((ingredient) => (
-                                  <BurgerIngredient key={uuid()} ingredient={ingredient} openModalIngredient={openModalIngredient}/>
+                                  <BurgerIngredient key={ingredient._id} ingredient={ingredient} openModalIngredient={openModalIngredient}/>
                               ))
                               ,[ingredients, openModalIngredient])
                           }
@@ -72,7 +71,7 @@ export const BurgerIngredients = ({openModalIngredient}) => {
                       <div className={`${styles.ingredients} mt-6 ml-4 mr-4 mb-10`}>
                           {   useMemo(()=>
                               ingredients?.filter((ingredient) => ingredient.type === 'sauce').map((ingredient) => (
-                                  <BurgerIngredient key={uuid()} ingredient={ingredient} openModalIngredient={openModalIngredient}/>
+                                  <BurgerIngredient key={ingredient._id} ingredient={ingredient} openModalIngredient={openModalIngredient}/>
                               ))
                               ,[ingredients, openModalIngredient])
                           }
@@ -83,7 +82,7 @@ export const BurgerIngredients = ({openModalIngredient}) => {
                       <div className={`${styles.ingredients} mt-6 ml-4 mr-4 mb-10`}>
                           {   useMemo(()=>
                               ingredients?.filter((ingredient) => ingredient.type === 'main').map((ingredient) => (
-                                  <BurgerIngredient key={uuid()} ingredient={ingredient} openModalIngredient={openModalIngredient}/>
+                                    <BurgerIngredient key={ingredient._id} ingredient={ingredient} openModalIngredient={openModalIngredient}/>
                               ))
                               ,[ingredients, openModalIngredient])
                           }

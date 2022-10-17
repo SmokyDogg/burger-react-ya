@@ -120,7 +120,7 @@ export const BurgerConstructor = ({openModalOrder}) => {
               </p>
               <CurrencyIcon type="primary" />
           </div>
-              <Button type="primary" disabled={isDisabledButton} size="large" onClick={openModalOrder}>
+              <Button htmlType="button" type="primary" disabled={isDisabledButton} size="large" onClick={openModalOrder}>
                   Оформить заказ
               </Button>          
       </div>
@@ -128,6 +128,6 @@ export const BurgerConstructor = ({openModalOrder}) => {
   );
 };
 BurgerConstructor.propTypes = {
-  openModalOrder: PropTypes.func.isRequired,
+    openModalOrder: PropTypes.func.isRequired,
 };
 export default BurgerConstructor;

@@ -2,4 +2,8 @@
     position: relative;
     cursor: pointer;
   }
-  
+  .ingredients {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }

@@ -63,17 +63,17 @@ const App = () => {
         <p>Ошибка получения данных с сервера</p>
       }
       { (openOrderDetails && order && !orderRequest) && (
-          <Modal onClose={closeModalOrder} title="">
+          <Modal onClose={closeModalOrder} header="">
             <OrderDetails order={order} />
           </Modal>
       )}
-      {(openOrderDetails && order && !orderRequest) && (
-        <Modal onClose={closeModalOrder} title="">
+      {(openOrderDetails && !order && !orderRequest) && (
+        <Modal onClose={closeModalOrder} header="">
           <p>Ошибка получения номера заказа</p>
         </Modal>
       )}
       {currentIngredient && (
-        <Modal title="Детали ингридиента" onClose={closeModalIngredient}>
+        <Modal header="Детали ингридиента" onClose={closeModalIngredient}>
           <IngredientDetails ingredient={currentIngredient} />
         </Modal>
       )}
