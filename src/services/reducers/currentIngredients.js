@@ -11,7 +11,7 @@ const initialState = {
   currentIngredients: [],
   currentBun: null,
 };
-export const currentIngredientsReducer = (state = initialState, action) => {
+export const currentIngredientsReducer = (state = initialState, action, uid = uuid()) => {
   switch (action.type) {
     case ADD_BUN: {
       return {
@@ -24,7 +24,7 @@ export const currentIngredientsReducer = (state = initialState, action) => {
         ...state,
         currentIngredients: [
           ...state.currentIngredients,
-          { uid: uuid(), data: action.payload },
+          { uid: uid, data: action.payload },
         ],
       };
     }
