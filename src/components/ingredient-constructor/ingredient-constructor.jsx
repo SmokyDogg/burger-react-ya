@@ -52,7 +52,7 @@ export const IngredientConstructor = ({ingredient, index}) => {
             text={ingredient.data.name}
             price={ingredient.data.price}
             thumbnail={ingredient.data.image}
-            handleClose={()=>{deleteIngredient(`${ingredient.data.uid}${index}`)}}
+            handleClose={()=>{deleteIngredient(ingredient.data.uid)}}
             />
         </div>
     );
