@@ -6,7 +6,7 @@ import { Scrollbars } from "react-custom-scrollbars";
 import { useDispatch, useSelector } from "react-redux";
 import { useInView } from "react-intersection-observer";
 import { SET_CURRENT_TAB } from "../../services/actions/listIngredients";
-import { BurgerIngredient } from "../burger-ingredient.jsx/burger-ingredient";
+import { BurgerIngredient } from "../burger-ingredient/burger-ingredient";
 
 export const BurgerIngredients = ({openModalIngredient}) => {
   const ingredients = useSelector(store=>store.listIngredients.ingredients);

@@ -78,7 +78,7 @@ export const BurgerConstructor = ({openModalOrder}) => {
               addBun(item.ingredient);
           }
           else{
-              addIngredient(item.ingredient);
+            addIngredient(item.ingredient);
           }
       }
   })
@@ -95,8 +95,8 @@ export const BurgerConstructor = ({openModalOrder}) => {
               renderTrackVertical={props => <div {...props} className={styles.scrollTrack}/>}
               renderThumbVertical={props => <div {...props} className={styles.scrollThumb}/>}> 
                   {   useMemo(()=>
-                      ingredients.filter((ingredient) => (ingredient.data.type !== 'bun')).map((ingredient,index) => (                        
-                          <IngredientConstructor key={ingredient.data.uid} ingredient={ingredient} index={index}/>
+                      ingredients.filter((ingredient) => (ingredient.data.type !== 'bun')).map((ingredient,index) => (
+                          <IngredientConstructor key={`${ingredient.data.uid}${index}`} ingredient={ingredient} index={index}/>
                       ))
                       ,[ingredients])
                       

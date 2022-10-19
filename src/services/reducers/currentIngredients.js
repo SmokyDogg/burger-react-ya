@@ -23,7 +23,7 @@ export const currentIngredientsReducer = (state = initialState, action) => {
         ...state,
         currentIngredients: [
           ...state.currentIngredients,
-          {data: action.payload},
+          {data: action.payload}
         ],
       };
     }
@@ -31,8 +31,9 @@ export const currentIngredientsReducer = (state = initialState, action) => {
       return {
         ...state,
         currentIngredients: [...state.currentIngredients].filter(
-          (el) => el.uid !== action.payload
+          (el) => el.data.uid !== action.payload
         ),
+        
       };
     }
     case SWAP_INGREDIENT: {
