@@ -31,7 +31,7 @@ export const currentIngredientsReducer = (state = initialState, action) => {
       return {
         ...state,
         currentIngredients: [...state.currentIngredients].filter(
-          (el) => el.data.uid !== action.payload
+          (el, index) => `${el.data.uid}${index}` !== action.payload
         ),
         
       };
