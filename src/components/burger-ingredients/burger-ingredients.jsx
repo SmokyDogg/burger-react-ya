@@ -1,121 +1,99 @@
-import React from "react";
+import { useEffect, useMemo } from "react";
 import styles from "./burger-ingredients.module.css";
 import PropTypes from "prop-types";
-import { ingredientType } from "../../utils/types";
-import {
-    Tab,
-    CurrencyIcon,
-    Counter,
-} from "@ya.praktikum/react-developer-burger-ui-components";
+import { Tab } from "@ya.praktikum/react-developer-burger-ui-components";
+import { Scrollbars } from "react-custom-scrollbars";
+import { useDispatch, useSelector } from "react-redux";
+import { useInView } from "react-intersection-observer";
+import { SET_CURRENT_TAB } from "../../services/actions/listIngredients";
+import { BurgerIngredient } from "../burger-ingredient/burger-ingredient";
 
-const BurgerIngredients = ({ data, openModalIngredient }) => {
-    const [current, setCurrent] = React.useState("bun");
-    return (
-        <section className={styles.ingredients}>
-            <h1 className="text text_type_main-large mt-10 mb-5">Соберите бургер</h1>
-            <div className={`${styles.tab__bar} mb-10`}>
-                <Tab value="bun" active={current === "bun"} onClick={setCurrent}>
-                    Булки
-                </Tab>
-                <Tab value="sauce" active={current === "sauce"} onClick={setCurrent}>
-                    Соусы
-                </Tab>
-                <Tab value="main" active={current === "main"} onClick={setCurrent}>
-                    Начинки
-                </Tab>
-            </div>
-            <ul className={`${styles.list_types} pl-2`}>
-                <li>
-                    <h3 className="text text_type_main-medium mb-6">Булки</h3>
-                    <ul className={styles.list_ingredients}>
-                        {data
-                            .filter((item) => item.type === "bun")
-                            .map((item) => (
-                                <li
-                                    className={styles.card}
-                                    key={item._id}
-                                    onClick={() => {
-                                        openModalIngredient(item);
-                                    }}
-                                >
-                                    <Counter count={1} size="default" />
-                                    <img src={item.image} alt={item.name} />
-                                    <div className={`${styles.price} mt-2 mb-2`}>
-                                        <p className="text text_type_digits-default mr-2">
-                                            {item.price}
-                                        </p>
-                                        <CurrencyIcon type="primary" />
-                                    </div>
-                                    <h4 className={`${styles.name} text text_type_main-default`}>
-                                        {item.name}
-                                    </h4>
-                                </li>
-                            ))}
-                    </ul>
-                </li>
-                <li>
-                    <h3 className="text text_type_main-medium mt-10 mb-6">Соусы</h3>
+export const BurgerIngredients = ({openModalIngredient}) => {
+  const ingredients = useSelector(store=>store.listIngredients.ingredients);
+  const currentTab = useSelector(store=>store.listIngredients.currentTab);
+  const dispatch = useDispatch();
+  const [ bun, inViewBun ] = useInView({
+      threshold: 0.5
+    });
+    const [sauce, inViewSauce ] = useInView({
+      threshold: 0.8
+    });
+    const [ main, inViewMain ] = useInView({
+      threshold: 0.2
+    });
+  
+  useEffect(()=>{
+      if(inViewBun){
+          dispatch({type: SET_CURRENT_TAB, currentTab: 'bun'});
+      }
+      else if(inViewSauce){
+          dispatch({type: SET_CURRENT_TAB, currentTab: 'sauce'});
+      }
+      else if(inViewMain){
+          dispatch({type: SET_CURRENT_TAB, currentTab: 'main'});
+      }
+  }, [inViewBun,inViewSauce,inViewMain, dispatch]);
+  const tabClick = (value) => {
+      document.querySelector(`.${value}`).scrollIntoView({ behavior: "smooth"});
+  }
 
-                    <ul className={styles.list_ingredients}>
-                        {data
-                            .filter((item) => item.type === "sauce")
-                            .map((item) => (
-                                <li
-                                    className={styles.card}
-                                    key={item._id}
-                                    onClick={() => {
-                                        openModalIngredient(item);
-                                    }}
-                                >
-                                    <Counter count={1} size="default" />
-                                    <img src={item.image} alt={item.name} />
-                                    <div className={`${styles.price} mt-2 mb-2`}>
-                                        <p className="text text_type_digits-default mr-2">
-                                            {item.price}
-                                        </p>
-                                        <CurrencyIcon type="primary" />
-                                    </div>
-                                    <h4 className={`${styles.name} text text_type_main-default`}>
-                                        {item.name}
-                                    </h4>
-                                </li>
-                            ))}
-                    </ul>
-                </li>
-                <li>
-                    <h3 className="text text_type_main-medium mt-10 mb-6">Начинки</h3>
-                    <ul className={styles.list_ingredients}>
-                        {data
-                            .filter((item) => item.type === "main")
-                            .map((item) => (
-                                <li
-                                    className={styles.card}
-                                    key={item._id}
-                                    onClick={() => {
-                                        openModalIngredient(item);
-                                    }}
-                                >
-                                    <Counter count={1} size="default" />
-                                    <img src={item.image} alt={item.name} />
-                                    <div className={`${styles.price} mt-2 mb-2`}>
-                                        <p className="text text_type_digits-default mr-2">
-                                            {item.price}
-                                        </p>
-                                        <CurrencyIcon type="primary" />
-                                    </div>
-                                    <h4 className={`${styles.name} text text_type_main-default`}>
-                                        {item.name}
-                                    </h4>
-                                </li>
-                            ))}
-                    </ul>
-                </li>
-            </ul>
-        </section>
-    );
-};
+  return(
+      <section className={`${styles.section}`}> 
+          <h1 className="text text_type_main-large mt-10 mb-5">Соберите бургер</h1>
+          <div className={`${styles.df}`}>
+              <Tab value="bun" active={currentTab === 'bun'} inViewBun={inViewBun} onClick={(value)=>{dispatch({type: SET_CURRENT_TAB, currentTab: value}); tabClick(value)}}>
+                  Булки
+              </Tab>
+              <Tab value="sauce" active={currentTab === 'sauce'} inViewSauce={inViewSauce} onClick={(value)=>{dispatch({type: SET_CURRENT_TAB, currentTab: value}); tabClick(value)}}>
+                  Соусы
+              </Tab>
+              <Tab value="main" active={currentTab === 'main'} inViewMain={inViewMain} onClick={(value)=>{dispatch({type: SET_CURRENT_TAB, currentTab: value}); tabClick(value)}}>
+                  Начинки
+              </Tab>
+          </div>
+          <div className={`${styles.containerScroll}`}>
+              <Scrollbars universal 
+                   renderTrackVertical={props => <div {...props} className={styles.scrollTrack}/>}
+                   renderThumbVertical={props => <div {...props} className={styles.scrollThumb}/>}> 
+                  <div ref={bun} className={`${styles.containerTopping} bun`}>
+                      <h2  className={`${styles.title} text text_type_main-medium mb-6`}>Булки</h2>
+                      <div className={`${styles.ingredients} mt-6 ml-4 mr-4 mb-10`}>
+                          {   useMemo(()=>
+                              ingredients?.filter((ingredient) => ingredient.type === 'bun').map((ingredient) => (
+                                  <BurgerIngredient key={ingredient._id} ingredient={ingredient} openModalIngredient={openModalIngredient}/>
+                              ))
+                              ,[ingredients, openModalIngredient])
+                          }
+                      </div>  
+                  </div>
+                  <div ref={sauce} className={`${styles.containerTopping} sauce`}>
+                      <h2  className={`${styles.title} text text_type_main-medium mb-6`}>Соусы</h2>
+                      <div className={`${styles.ingredients} mt-6 ml-4 mr-4 mb-10`}>
+                          {   useMemo(()=>
+                              ingredients?.filter((ingredient) => ingredient.type === 'sauce').map((ingredient) => (
+                                  <BurgerIngredient key={ingredient._id} ingredient={ingredient} openModalIngredient={openModalIngredient}/>
+                              ))
+                              ,[ingredients, openModalIngredient])
+                          }
+                      </div>  
+                  </div>
+                  <div ref={main} className={`${styles.containerTopping} main`}>
+                      <h2 className={`${styles.title} text text_type_main-medium mb-6`}>Начинки</h2>
+                      <div className={`${styles.ingredients} mt-6 ml-4 mr-4 mb-10`}>
+                          {   useMemo(()=>
+                              ingredients?.filter((ingredient) => ingredient.type === 'main').map((ingredient) => (
+                                    <BurgerIngredient key={ingredient._id} ingredient={ingredient} openModalIngredient={openModalIngredient}/>
+                              ))
+                              ,[ingredients, openModalIngredient])
+                          }
+                      </div>  
+                  </div>
+              </Scrollbars> 
+          </div>
+      </section>
+  );
+}
 BurgerIngredients.propTypes = {
-    data: PropTypes.arrayOf(ingredientType.isRequired).isRequired,
-    openModalIngredient: PropTypes.func.isRequired,
+  openModalIngredient: PropTypes.func.isRequired,
 };
 export default BurgerIngredients;

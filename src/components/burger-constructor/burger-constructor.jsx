@@ -1,74 +1,134 @@
-import React from "react";
+import { useCallback, useMemo } from "react";
 import styles from "./burger-constructor.module.css";
 import PropTypes from "prop-types";
-import { ingredientType } from "../../utils/types";
 import {
   CurrencyIcon,
   Button,
   ConstructorElement,
-  DragIcon,
 } from "@ya.praktikum/react-developer-burger-ui-components";
+import { Scrollbars } from "react-custom-scrollbars";
+import uuid from "react-uuid";
+import image from "../../images/bun.png";
+import {ADD_BUN, ADD_INGREDIENT } from "../../services/actions/currentIngredients";
+import { IngredientConstructor } from "../ingredient-constructor/ingredient-constructor";
+import { useDrop } from 'react-dnd';
+import { useDispatch, useSelector } from 'react-redux';
 
-const BurgerConstructor = ({ data, openModalOrder }) => {
+export const BurgerConstructor = ({openModalOrder}) => {
+  const ingredients = useSelector(store=>store.currentIngredients.currentIngredients);
+  const bun = useSelector(store=>store.currentIngredients.currentBun);
+  const dispatch = useDispatch();
+  const priceCounting = useCallback(()=>{
+      return ( (bun ? bun.price * 2 : 0) +
+          ingredients.reduce((acc, topping) =>  acc +  topping.data.price , 0));
+      },[ingredients,bun]);
+  
+  const bunRender = (position) =>{
+      let currentType = '';
+      if(position === '(низ)'){
+          currentType = 'bottom';
+      }
+      else{
+          currentType = 'top';
+      }
+          if(bun){
+              return(
+                  <ConstructorElement
+                  type={`${currentType}`}
+                  isLocked={true}
+                  text={`${bun.name} ${position}`}
+                  price={bun.price}
+                  thumbnail={bun.image}
+                  />
+              )
+          }
+          else{
+              return(
+                  <ConstructorElement
+                  type={`${currentType}`}
+                  isLocked={true}
+                  text='Булка не выбрана, выберите ее из списка'
+                  price={0}
+                  thumbnail={image}
+                  />
+              )
+          }
+  };
+  const isDisabledButton = useMemo(()=>{
+      if(ingredients.length > 0 && bun)
+          return false;
+      else return true;
+  }, [ingredients, bun]);
+
+  const addBun = (item) => {
+      dispatch({type: ADD_BUN, payload: item });
+  }
+  const addIngredient = (item) =>{
+    const updateItem =  {...item, uid: uuid()}
+    dispatch({type:ADD_INGREDIENT, payload: updateItem})
+  }
+
+  const [{ isHover }, dropTarget] = useDrop({
+      accept: 'ingredient',
+      collect: monitor => ({
+          isHover: monitor.isOver()
+        }),
+      drop(item){
+          if(item.ingredient.type === 'bun'){
+              addBun(item.ingredient);
+          }
+          else{
+            addIngredient(item.ingredient);
+          }
+      }
+  })
+
   return (
-    <section className={`${styles.constructor} pt-25 pl-4`}>
-      <div className={styles.ingredients}>
-        <div className="pl-8">
-          <ConstructorElement
-            type="top"
-            isLocked={true}
-            text={`${data[0].name} (верх)`}
-            price={data[0].price}
-            thumbnail={data[0].image}
-          />
-        </div>
-
-        <ul className={`${styles.list_toppings} pr-3`}>
-          {data
-            .filter((item) => item.type !== "bun")
-            .map((item) => (
-              <li className={`${styles.item__topping} pb-4`} key={item._id}>
-                <DragIcon />
-                <ConstructorElement
-                  text={item.name}
-                  price={item.price}
-                  thumbnail={item.image}
-                />
-              </li>
-            ))}
-        </ul>
-
-        <div className="pl-8">
-          <ConstructorElement
-            type="bottom"
-            isLocked={true}
-            text={`${data[0].name} (низ)`}
-            price={data[0].price}
-            thumbnail={data[0].image}
-          />
-        </div>
+    <section className={`${styles.section} ${isHover ? styles.onHover : ''} pt-25`} ref={dropTarget}>
+      <div className='mr-4 ml-4 mb-4 pl-8'>
+          {
+              bunRender('(верх)')
+          } 
+      </div>    
+      <div className={`${styles.containerScroll} `}>
+          <Scrollbars universal
+              renderTrackVertical={props => <div {...props} className={styles.scrollTrack}/>}
+              renderThumbVertical={props => <div {...props} className={styles.scrollThumb}/>}> 
+                  {   useMemo(()=>
+                      ingredients.filter((ingredient) => (ingredient.data.type !== 'bun')).map((ingredient,index) => (
+                          <IngredientConstructor key={ingredient.data.uid} ingredient={ingredient} index={index}/>
+                      ))
+                      ,[ingredients])
+                      
+                  } 
+                  {
+                      ingredients.length === 0 &&
+                      <div  className={`${styles.ingredient} pl-4 pr-4 pb-4`}>
+                          <p className='text text_type_main-default pl-10'>Выберите ингредиенты</p>
+                      </div>
+                  }  
+          </Scrollbars>
       </div>
-      <div className={`${styles.order} pt-10 pr-3`}>
-        <div className={`${styles.total__price} pr-10`}>
-          <p className={` text text_type_digits-medium`}>
-            {data.reduce((acc, topping) => {
-              const totalPrice =
-                acc + (topping.type !== "bun" ? topping.price : 0);
-              return totalPrice;
-            }, 0)}
-          </p>
-          <CurrencyIcon />
-        </div>
-
-        <Button type="primary" size="large" onClick={openModalOrder}>
-          Оформить заказ
-        </Button>
+      <div className='mr-4 ml-4 mt-4 pl-8'>
+          {
+              bunRender('(низ)')
+          }
+      </div>
+      <div className={`${styles.wrapperPrice} mt-10 mr-4`}>
+          <div className={`${styles.containePrice} mr-10`}>
+              <p className='text text_type_digits-medium'>
+                  {priceCounting()}
+              </p>
+              <CurrencyIcon type="primary" />
+          </div>
+              <Button htmlType="button" type="primary" disabled={isDisabledButton} size="large" onClick={openModalOrder}>
+                  Оформить заказ
+              </Button>          
       </div>
     </section>
   );
 };
 BurgerConstructor.propTypes = {
-  data: PropTypes.arrayOf(ingredientType.isRequired).isRequired,
-  openModalOrder: PropTypes.func.isRequired,
+    openModalOrder: PropTypes.func.isRequired,
 };
 export default BurgerConstructor;

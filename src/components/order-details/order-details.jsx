@@ -1,11 +1,12 @@
 import styles from "./order-details.module.css";
 import done from "../../images/done.png";
-const OrderDetails = () => {
+import PropTypes from 'prop-types'
+const OrderDetails = ({order}) => {
     return (
         <div className={`${styles.container} pb-30 pt-4`}>
             <ul className={`${styles.list_id}`}>
                 <li className={`${styles.item} ${styles.order} pb-8`}>
-                    <h2 className="text text_type_digits-large">034536</h2>
+                    <h2 className="text text_type_digits-large">{`${order}`}</h2>
                 </li>
                 <li className={`${styles.item}`}>
                     <p className={`${styles.id_text} text text_type_main-medium`}>
@@ -31,5 +32,9 @@ const OrderDetails = () => {
         </div>
     );
 };
+
+OrderDetails.propTypes = {
+    order: PropTypes.number.isRequired,
+}
 
 export default OrderDetails;
