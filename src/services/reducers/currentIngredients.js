@@ -3,6 +3,7 @@ import {
   ADD_INGREDIENT,
   DELETE_INGREDIENT,
   SWAP_INGREDIENT,
+  CLEAR_INGREDIENTS
 } from "../actions/currentIngredients";
 
 
@@ -44,6 +45,13 @@ export const currentIngredientsReducer = (state = initialState, action) => {
           action.hoverIndex,
           action.dragIndex
         ),
+      };
+    }
+    case CLEAR_INGREDIENTS: {
+      return {
+        ...state,
+        currentIngredients: [],
+        currentBun: null,
       };
     }
     default: {
