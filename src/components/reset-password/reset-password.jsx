@@ -7,7 +7,7 @@ import { resetPswUser } from '../../services/actions/user';
 import { useSelector } from 'react-redux';
 
 export const ResetPassword = () => {
-    const [state, setState] = ({
+    const [state, setState] = useState({
         password: '',
         token: ''
     })
@@ -55,7 +55,7 @@ export const ResetPassword = () => {
                         size="default"
                     />
                 </div>
-                <Button disabled={!(state.token && state.password)} type="primary" size="medium">Сохранить</Button>
+                <Button disabled={!(state.token && state.password)} type="primary" htmlType='submit' size="medium">Сохранить</Button>
             </form>
             <p className={`text text_type_main-default text_color_inactive mt-20`}>Вспомнили пароль? <Link to='/login' className={`${styles.link}`}>Войти</Link></p>
         </div>

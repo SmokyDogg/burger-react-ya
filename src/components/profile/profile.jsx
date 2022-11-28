@@ -126,7 +126,7 @@ export const Profile = () =>{
                 </div>
                 <div className={`${styles.buttons}`}>
                     <Button type="secondary" size="medium" htmlType='button' onClick={handleReset}>Отмена</Button>
-                    <Button disabled={!(state.name && state.email && state.password)} htmlType="button" type="primary" size="medium" >Сохранить</Button>
+                    <Button disabled={!(state.name && state.email && state.password)} htmlType="submit" type="primary" size="medium" >Сохранить</Button>
                 </div>
             </form>
         </div>

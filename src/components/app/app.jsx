@@ -13,6 +13,8 @@ import { HomePage } from "../../pages/home-page";
 import { IngredientPage } from "../../pages/ingredient-page";
 import { LoginPage } from "../../pages/login-page";
 import { NotFound404Page } from "../../pages/not-found404-page";
+import { UserOrdersPage } from "../../pages/user-orders-page";
+import { OrderFeedPage } from "../../pages/order-feed-page";
 import { ProfilePage } from "../../pages/profile-page";
 import { RegisterPage } from "../../pages/register-page";
 import { RepairPasswordPage } from "../../pages/repair-password-page";
@@ -113,6 +115,12 @@ const App = () => {
 				</ProtectedRoute>
 				<Route exact path='/ingredients/:id'>
 					<IngredientPage />
+				</Route>
+        <Route exact path='/feed'>
+					<OrderFeedPage/>
+				</Route>
+        <Route exact path='/profile/orders'>
+					<UserOrdersPage/>
 				</Route>
 				<Route exact path="/">
 					<HomePage openModalIngredient={openModalIngredient} openModalOrder={openModalOrder}/>

@@ -10,7 +10,7 @@ export const ForgotPassword = () => {
     const [email, setEmail] = useState('');
     const dispatch = useDispatch();
     const user = useSelector(store => store.user.user);
-    const forgotSuccess = useSelector(store => store.user.forPswSuccess);
+    const forgotSuccess = useSelector(store => store.user.forgotPswSuccess);
     const onChange = e => {
         setEmail(e.target.value)
     }
@@ -49,7 +49,7 @@ export const ForgotPassword = () => {
                         size="default"
                     />
                 </div>
-                <Button disabled={!(email)} type="primary" size="medium">Восстановить</Button>
+                <Button disabled={!(email)} htmlType="submit" type="primary" size="medium">Восстановить</Button>
             </form>
             <p className={`text text_type_main-default text_color_inactive mt-20`}>Вспомнили пароль? <Link to='/login' className={`${styles.link}`}>Войти</Link></p>
         </div>

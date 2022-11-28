@@ -61,7 +61,7 @@ export const Register = () => {
                 <div className={`${styles.input} mt-6 mb-6`}>
                     <PasswordInput type={'password'} onChange={onChangeInputs} value={state.password} name={'password'} />
                 </div>
-                <Button disabled={!(state.email && state.password)} type='primary' size="medium">Зарегистрироваться</Button>
+                <Button disabled={!(state.email && state.password)} htmlType="submit" type='primary' size="medium">Зарегистрироваться</Button>
             </form>
             <p className={`text text_type_main-default text_color_inactive mt-20`}>Уже зарегистрировались? <Link to='/login' className={`${styles.link}`}>Войти</Link></p>
         </div>
