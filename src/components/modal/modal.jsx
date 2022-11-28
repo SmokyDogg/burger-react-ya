@@ -20,21 +20,16 @@ const Modal = ({ header, onClose, children }) => {
     }, []);
     return createPortal(
         <>
-            <div className={`${styles.modal} pl-10 pt-10 pr-10`}>
-                <div className={`${styles.header}`}>
-                    <h1 className="text text_type_main-large">{header}</h1>
-                    <button
-                        className={styles.closeButton}
-                        type="button"
-                        onClick={onClose}
-                    >
-                        <CloseIcon type="primary" />
-                    </button>
+            <div className={styles.containerModal}>
+                    <div className={`${styles.content} pl-10 pt-10 pr-10`}>
+                        <h2 className='text text_type_main-large'>{header}</h2>
+                        <button className={styles.closeButton} type="button"> 
+                            <CloseIcon type='primary' onClick={onClose}/>
+                        </button>
+                    </div>
+                    {children} 
                 </div>
-                {children}
-            </div>
-
-            <ModalOverlay onClick={onClose} />
+                <ModalOverlay onClick={onClose} /> 
         </>,
         modalRoot
     );

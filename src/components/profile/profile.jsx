@@ -8,9 +8,9 @@ import { updateUser, exit, getUser } from '../../services/actions/user';
 import { deleteCookie } from '../../utils/cookie';
 
 export const Profile = () =>{
-    const user = useSelector(store=>store.user.user);
-    const updateFailed = useSelector(store=>store.user.updateFailed);
-	const expiredToken = useSelector(store=>store.user.expiredToken);
+    const user = useSelector(store => store.user.user);
+    const updateFailed = useSelector(store => store.user.updateFailed);
+	const expiredToken = useSelector(store => store.user.expiredToken);
     const dispatch = useDispatch();
     const [state, setState] = useState({
         name: user.name,
@@ -125,8 +125,8 @@ export const Profile = () =>{
                     />
                 </div>
                 <div className={`${styles.buttons}`}>
-                    <Button type="secondary" size="medium" onClick={handleReset}>Отмена</Button>
-                    <Button disabled={!(state.name && state.email && state.password)} type="primary" size="medium" >Сохранить</Button>
+                    <Button type="secondary" size="medium" htmlType='button' onClick={handleReset}>Отмена</Button>
+                    <Button disabled={!(state.name && state.email && state.password)} htmlType="button" type="primary" size="medium" >Сохранить</Button>
                 </div>
             </form>
         </div>

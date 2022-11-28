@@ -33,7 +33,7 @@ const App = () => {
 
   useEffect(() => {
     dispatch(getIngredients());
-  }, [dispatch])
+  }, [dispatch]);
   useEffect(() => {
     if(expiredToken && !tokenFailed){
       dispatch(updateToken());
@@ -46,15 +46,16 @@ const App = () => {
     if(userFailed && !expiredToken){
       dispatch(getUser())
     }
-  }, [dispatch, expiredToken, userFailed])
+  }, [dispatch, expiredToken, userFailed]);
   useEffect(() => {
     if(!user && authToken && refreshToken) {
       dispatch(getUser())
     }
   }, [dispatch, user, authToken, refreshToken]);
+
   const location = useLocation();
   const history = useHistory();
-  const background = location.state && location.state.background;
+  const background = location.state && location.state?.background;
   const order = useSelector(store => store.order.order);
   const orderRequest = useSelector(store => store.order.orderRequest);
   const currentIngredients = useSelector(store => store.currentIngredients.currentIngredients);
@@ -122,18 +123,18 @@ const App = () => {
 			</Switch>
 			{background &&
 				<Route exact path="/ingredients/:id">
-					<Modal title="Детали ингредиента" handleClose={closeModalIngredient}>
+					<Modal header="Детали ингредиента" onClose={closeModalIngredient}>
 						<IngredientDetails />
 					</Modal>
 				</Route>
 			}
 			{ (showOrderDetails && order && !orderRequest) && (
-				<Modal handleClose={closeModalOrder} title="">
+				<Modal onClose={closeModalOrder} header="">
 					<OrderDetails order={order}/>
 				</Modal>
 			)}
 			{ (showOrderDetails && !order && !orderRequest) && (
-				<Modal handleClose={closeModalOrder} title="">
+				<Modal onClose={closeModalOrder} header="">
 					<p>Ошибка получения номера заказа</p>
 				</Modal>
 			)}
