@@ -1,0 +1,31 @@
+.container {
+    width: 480px;
+    display: flex;
+    flex-direction: column;
+    margin-top: 180px;
+    align-items: center;
+  }
+  .title {
+    margin: 0;
+    padding: 0;
+  }
+  .form {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+  }
+  .input {
+    width: 100%;
+  }
+  .input > div > div {
+    width: 480px;
+  }
+  button {
+    max-width: max-content;
+    margin: auto;
+  }
+  .link {
+    text-decoration: none;
+    cursor: pointer;
+    color: #4c4cff;
+  }

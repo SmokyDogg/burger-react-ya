@@ -5,9 +5,6 @@
 .containerScroll {
   flex: 1 1 auto;
 }
-.df{
-  display: flex;
-}
 .scrollTrack {
   cursor: pointer;
   background-color: #2f2f37;
@@ -36,4 +33,7 @@
   row-gap: 32px;
   align-items: center;
   justify-content: start;
+}
+.df{
+  display: flex;
 }

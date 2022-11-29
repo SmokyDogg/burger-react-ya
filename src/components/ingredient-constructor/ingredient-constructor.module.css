@@ -1,12 +1,11 @@
 .ingredient {
-    display: flex;
-    flex-direction: row;
-    column-gap: 9.5px;
-  }
-  .icon {
-    align-self: center;
-  }
-  .onSwap {
-    border-left: 1px solid #8585ad;
-  }
-  
+  display: flex;
+  flex-direction: row;
+  column-gap: 9.5px;
+}
+.icon {
+  align-self: center;
+}
+.onSwap {
+  border-left: 1px solid #8585ad;
+}

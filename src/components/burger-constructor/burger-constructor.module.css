@@ -1,48 +1,51 @@
 .section {
-    display: flex;
-    flex-direction: column;
-  }
-  .onHover{
-    border-radius: 10%;
-    border: 1px solid #8585ad;
-    box-sizing: content-box;
-  }
-  .containerScroll {
-    flex: 1 1 auto;
-  }
-  .scrollTrack {
-    cursor: pointer;
-    background-color: #2f2f37;
-    right: 2px;
-    bottom: 2px;
-    top: 2px;
-    border-radius: 1px;
-    width: 8px;
-  }
-  .scrollThumb {
-    width: 8px;
-    border-radius: 3px;
-    background-color: #8585ad;
-  }
-  .ingredient {
-    display: flex;
-    flex-direction: row;
-    column-gap: 9.5px;
-  }
-  .icon {
-    align-self: center;
-  }
-  .wrapperPrice {
-    display: flex;
-    flex-direction: row;
-    justify-content: flex-end;
-    margin-bottom: 52px;
-  }
-  .containePrice {
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
-    align-items: center;
-    column-gap: 9.5px;
-  }
-  
+  display: flex;
+  flex-direction: column;
+}
+.onHover {
+  border-radius: 10%;
+  border: 1px solid #8585ad;
+  box-sizing: content-box;
+}
+.containerScroll {
+  flex: 1 1 auto;
+}
+.scrollTrack {
+  cursor: pointer;
+  background-color: #2f2f37;
+  right: 2px;
+  bottom: 2px;
+  top: 2px;
+  border-radius: 1px;
+  width: 8px;
+}
+.scrollThumb {
+  width: 8px;
+  border-radius: 3px;
+  background-color: #8585ad;
+}
+.ingredient {
+  display: flex;
+  flex-direction: row;
+  column-gap: 9.5px;
+}
+.icon {
+  align-self: center;
+}
+.wrapperPrice {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-end;
+  margin-bottom: 52px;
+}
+.wrapperPrice > button {
+  margin: 0;
+}
+.containePrice {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  column-gap: 9.5px;
+}

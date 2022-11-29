@@ -1,43 +1,42 @@
-import React from "react";
-import {
-    BurgerIcon,
-    ListIcon,
-    Logo,
-    ProfileIcon
-} from "@ya.praktikum/react-developer-burger-ui-components";
+import { Logo } from '@ya.praktikum/react-developer-burger-ui-components'
+import { BurgerIcon } from '@ya.praktikum/react-developer-burger-ui-components'
+import { ListIcon } from '@ya.praktikum/react-developer-burger-ui-components'
+import { ProfileIcon } from '@ya.praktikum/react-developer-burger-ui-components'
+import { NavLink, Link, useLocation } from 'react-router-dom';
 import styles from './app-header.module.css'
-
-
-
-
 const AppHeader = () => {
+    const location = useLocation();
     return (
-        <header className={`${styles.header} pt-4 pb-4`}>
-            <nav>
-                <ul className={`${styles.list} pr-5 pl-5`}>
-                    <li className={`${styles.list__item} pr-5 pl-5 pt-4 pb-4`}>
-                        <BurgerIcon type="primary" />
-                        <a href="./" className={`${styles.link} ${styles.link_active} text text_type_main-default`}>
-                            Конструктор
-                        </a>
+    <header className={`${styles.header} pb-4 pt-4`}>
+        <nav className={styles.navbar}>
+            <div className={styles.container}>
+                <ul className={styles.list}>
+                    <li className={`${styles.item} pl-5 pr-5`}>
+                        <NavLink exact to='/' className={`${styles.link}`} activeClassName={`${styles.link_active}`}>
+                            <BurgerIcon type={location.pathname === '/' ? "primary"  : "secondary" }/>
+                            <p className="text text_type_main-default pl-2">Конструктор </p>
+                        </NavLink>
                     </li>
-                    <li className={`${styles.list__item} pr-5 pl-5 pt-4 pb-4`}>
-                        <ListIcon type="secondary" />
-                        <a href="./" className={`${styles.link} text text_type_main-default text_color_inactive`}>
-                            Лента заказов
-                        </a>
+                    <li className={`${styles.item} pl-5 pr-5 ml-2`}>
+                        <NavLink to='/feed' className={`${styles.link}`} activeClassName={`${styles.link_active}`}>
+                            <ListIcon type={location.pathname === '/feed' ? "primary"  : "secondary" } />
+                            <p className="text text_type_main-default pl-2 ">Лента заказов</p>
+                        </NavLink>
                     </li>
                 </ul>
-            </nav>
-            <Logo />
-            <div className={`${styles.profile} pr-5 pl-5 pt-4 pb-4`}>
-                <ProfileIcon type="secondary" />
-                <a href="./" className={`${styles.link} text text_type_main-default text_color_inactive`}>
-                    Личный кабинет
-                </a>
+                <Link to='/'>
+                    <Logo/>
+                </Link>
             </div>
-        </header>
-    )
+            <div className='pl-5 pr-5'>
+                <NavLink to='/profile' className={`${styles.link}`} activeClassName={`${styles.link_active}`}>
+                    <ProfileIcon type={location.pathname === '/profile' ? "primary"  : "secondary" } />
+                    <p className="text text_type_main-default pl-2 ">Личный кабинет</p>
+                </NavLink>
+            </div>
+        </nav>
+    </header>
+    );
 }
 
 export default AppHeader
