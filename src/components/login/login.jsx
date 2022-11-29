@@ -29,7 +29,7 @@ export const Login = () => {
     const location = useLocation();
     if(user && !exitRequest) {
         return (
-            <Redirect to={location?.state?.from || '/'}/>
+            <Redirect to={location.state?.from || '/'}/>
         );
     }
     return (

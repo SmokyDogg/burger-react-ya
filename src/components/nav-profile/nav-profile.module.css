@@ -1,0 +1,20 @@
+.navigation {
+    display: flex;
+    flex-direction: column;
+    margin-right: 60px;
+    max-width: 320px;
+  }
+  .link {
+    padding: 17px 0;
+    cursor: pointer;
+    text-decoration: none;
+    color: #8585ad;
+    transition: all 0.3s ease;
+  }
+  .activeLink {
+    color: #f2f2f3;
+  }
+  .caption {
+    opacity: 0.4;
+  }
+  

@@ -8,7 +8,7 @@ import IngredientDetails from "../ingredient-details/ingredient-details";
 import Modal from "../modal/modal";
 import { getOrder } from "../../services/actions/order";
 import { getIngredients } from "../../services/actions/listIngredients";
-import { CLOSE_MODAL, OPEN_MODAL } from "../../services/actions/ingredients";
+import { CLEAR_INGREDIENT, GET_INGREDIENT } from "../../services/actions/ingredients";
 import { HomePage } from "../../pages/home-page";
 import { IngredientPage } from "../../pages/ingredient-page";
 import { LoginPage } from "../../pages/login-page";
@@ -22,7 +22,9 @@ import { ResetPasswordPage } from "../../pages/reset-password-page";
 import { exit, getUser, updateToken } from "../../services/actions/user";
 import { deleteCookie, getCookie } from "../../utils/cookie";
 import { ProtectedRoute } from "../protected-route/protected-route";
-
+import { OrderInfoPage } from "../../pages/order-info-page";
+import { CLOSE_MODAL, OPEN_MODAL } from "../../services/actions/modal";
+import { OrderInfoModal } from "../order-info-modal/order-info-modal";
 
 const App = () => {
   const user = useSelector(store => store.user.user);
@@ -36,6 +38,7 @@ const App = () => {
   useEffect(() => {
     dispatch(getIngredients());
   }, [dispatch]);
+
   useEffect(() => {
     if(expiredToken && !tokenFailed){
       dispatch(updateToken());
@@ -49,6 +52,7 @@ const App = () => {
       dispatch(getUser())
     }
   }, [dispatch, expiredToken, userFailed]);
+
   useEffect(() => {
     if(!user && authToken && refreshToken) {
       dispatch(getUser())
@@ -60,36 +64,47 @@ const App = () => {
   const background = location.state && location.state?.background;
   const order = useSelector(store => store.order.order);
   const orderRequest = useSelector(store => store.order.orderRequest);
+  const orderFailed = useSelector(store => store.order.orderFailed);
+  const isOpenModal = useSelector(store => store.modal.isOpened)
+
   const currentIngredients = useSelector(store => store.currentIngredients.currentIngredients);
   const currentBun = useSelector(store => store.currentIngredients.currentBun);
 
   const openModalIngredient = (ingredient) => {
-    dispatch({type: OPEN_MODAL, payload: ingredient})
+    dispatch({type: GET_INGREDIENT, payload: ingredient});
+    dispatch({type: OPEN_MODAL})
+  }
+
+  const closeModalIngredient = () => {
+    dispatch({type: CLEAR_INGREDIENT})
+    dispatch({type: CLOSE_MODAL});
+    history.replace('/')
   }
 
   const getIdIngredients = useCallback(() => {
-    return currentIngredients.map((ingredient) => ingredient._id).concat(currentBun._id)
+    return currentIngredients.map((ingredient) => ingredient.data._id).concat(currentBun._id).concat(currentBun._id).reverse()
   }, [currentBun, currentIngredients])
 
   const openModalOrder = () => {
     if(user){
       dispatch(getOrder(getIdIngredients()))
-      setShowOrderDetails(true)
+      dispatch({type: OPEN_MODAL})
     }
     else {
       history.push('/login')
     }
   }
-  const [showOrderDetails, setShowOrderDetails] = useState(false);
-
-  const closeModalIngredient = () => {
-    dispatch({type: CLOSE_MODAL});
+  const closeModalOrder = () => {
+    dispatch({type: CLOSE_MODAL})
     history.replace('/')
   }
-  
-  const closeModalOrder = () => {
-    setShowOrderDetails(false);
-    history.replace('/')
+
+  const openModalOrderInfo = () => {
+    dispatch({type: OPEN_MODAL})
+  }
+  const closeModalOrderInfo = () => {
+    dispatch({type: CLOSE_MODAL});
+    history.goBack()
   }
 
 
@@ -113,14 +128,24 @@ const App = () => {
 				<ProtectedRoute exact path='/profile'>
 					<ProfilePage/>
 				</ProtectedRoute>
+        <Route exact path='/profile/orders'>
+					<UserOrdersPage openModalOrderInfo={openModalOrderInfo}/>
+				</Route>
+        <Route exact path='/profile/orders/:id'>
+					<div className="mt-30">
+						<OrderInfoPage/>
+					</div>
+				</Route>
 				<Route exact path='/ingredients/:id'>
 					<IngredientPage />
 				</Route>
         <Route exact path='/feed'>
-					<OrderFeedPage/>
+					<OrderFeedPage openModalOrderInfo={openModalOrderInfo}/>
 				</Route>
-        <Route exact path='/profile/orders'>
-					<UserOrdersPage/>
+        <Route exact path='/feed/:id'>
+					<div className="mt-30">
+						<OrderInfoPage/>
+					</div>
 				</Route>
 				<Route exact path="/">
 					<HomePage openModalIngredient={openModalIngredient} openModalOrder={openModalOrder}/>
@@ -130,22 +155,30 @@ const App = () => {
 				</Route>
 			</Switch>
 			{background &&
-				<Route exact path="/ingredients/:id">
-					<Modal header="Детали ингредиента" onClose={closeModalIngredient}>
-						<IngredientDetails />
-					</Modal>
-				</Route>
+        <Switch>
+          <Route exact path="/ingredients/:id">
+            <Modal header="Детали ингредиента" onClose={closeModalIngredient}>
+              <IngredientDetails />
+            </Modal>
+          </Route>
+          <Route exact path='/feed/:id'>
+            <OrderInfoModal closeModalOrderInfo={closeModalOrderInfo}/>
+          </Route>
+          <Route exact path='/profile/orders/:id'>
+            <OrderInfoModal closeModalOrderInfo={closeModalOrderInfo}/>
+          </Route>
+        </Switch>
 			}
-			{ (showOrderDetails && order && !orderRequest) && (
+			{order && !orderRequest && isOpenModal &&
 				<Modal onClose={closeModalOrder} header="">
 					<OrderDetails order={order}/>
 				</Modal>
-			)}
-			{ (showOrderDetails && !order && !orderRequest) && (
+			}
+			{orderFailed && isOpenModal && 
 				<Modal onClose={closeModalOrder} header="">
 					<p>Ошибка получения номера заказа</p>
 				</Modal>
-			)}
+			}
 		</main>
 	</div>
   )
