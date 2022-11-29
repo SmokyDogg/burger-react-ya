@@ -28,7 +28,7 @@ const Modal = ({onClose, header, styleHeader, children }) => {
                             <h2 className='text text_type_main-large'>{header}</h2>
                         }
                         <button className={styles.closeButton} type="button"> 
-                            <CloseIcon type='primary' onClose={onClose}/>
+                            <CloseIcon type='primary' onClick={onClose}/>
                         </button>
                     </div>
                     <div className='pl-10 pb-10 pr-10'>

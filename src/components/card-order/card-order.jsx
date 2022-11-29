@@ -55,7 +55,7 @@ const CardOrder = ({openModalOrderInfo, status, order}) => {
             pathname: `${location.pathname}/${order._id}`,
             state: { background: location }
         }}>
-        <div className={`${styles.order} p-6 mr-4`} onClick={openModalOrderInfo}>
+        <div className={`${styles.order} p-6 mr-4`} onClick={() => {openModalOrderInfo()}}>
             <div className={`${styles.serviceInfo} mb-6`}>
                 <p className={`${styles.number} text text_type_digits-default`}>{`#${order.number}`}</p>
                 <p className={`${styles.data} text text_type_main-default text_color_inactive`}>{formatDate(order.createdAt)}</p>

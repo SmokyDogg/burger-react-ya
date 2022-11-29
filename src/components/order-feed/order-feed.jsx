@@ -6,7 +6,7 @@ import { WorkOrders } from "../work-orders/work-orders"
 import styles from './order-feed.module.css';
 import PropTypes from 'prop-types';
 
-const OrderFeed = (openModalOrderInfo) => {
+const OrderFeed = ({openModalOrderInfo}) => {
     const dispatch = useDispatch();
         useEffect(() => {
         dispatch(wsConnectionOpenAllOrders())
