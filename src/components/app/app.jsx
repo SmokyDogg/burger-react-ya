@@ -78,7 +78,7 @@ const App = () => {
   const closeModalIngredient = () => {
     dispatch({type: CLEAR_INGREDIENT})
     dispatch({type: CLOSE_MODAL});
-    history.replace('/')
+    history.goBack()
   }
 
   const getIdIngredients = useCallback(() => {
