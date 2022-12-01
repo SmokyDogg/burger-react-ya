@@ -96,7 +96,6 @@ const App = () => {
   }
   const closeModalOrder = () => {
     dispatch({type: CLOSE_MODAL})
-    history.goBack()
   }
 
   const openModalOrderInfo = () => {
