@@ -1,0 +1,31 @@
+.content {
+    width: 580px;
+  }
+  .ordersList {
+    display: flex;
+    flex-direction: row;
+  }
+  .readyOrders {
+    color: #00cccc;
+    width: 272px;
+  }
+  .title {
+    color: #f2f2f3;
+  }
+  .list {
+    margin: 0;
+    padding: 0;
+    height: 152px;
+    list-style: none;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, 136px);
+    grid-template-rows: repeat(auto-fit, 24px);
+    grid-auto-flow: column;
+    row-gap: 8px;
+    align-items: start;
+  }
+  .item {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+  }
