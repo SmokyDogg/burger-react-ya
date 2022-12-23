@@ -9,7 +9,7 @@ import {
 import { TIngredient } from "../types/data";
 
 type TInitialState = {
-  currentIngredients: Array<{ data: TIngredient}>;
+  currentIngredients: Array<{data: TIngredient}>;
   currentBun: TIngredient | null;
 }
 
