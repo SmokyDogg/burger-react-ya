@@ -14,8 +14,8 @@ const AppHeader: FC = () => {
             <div className={styles.container}>
                 <ul className={styles.list}>
                     <li className={`${styles.item} pl-5 pr-5`}>
-                        <NavLink exact to='/' className={`${styles.link}`} activeClassName={`${styles.link_active}`}>
-                            <BurgerIcon type={location.pathname === '/' ? "primary"  : "secondary" }/>
+                        <NavLink exact to='/burger-react-ya/' className={`${styles.link}`} activeClassName={`${styles.link_active}`}>
+                            <BurgerIcon type={location.pathname === '/burger-react-ya/' ? "primary"  : "secondary" }/>
                             <p className="text text_type_main-default pl-2">Конструктор </p>
                         </NavLink>
                     </li>
@@ -26,7 +26,7 @@ const AppHeader: FC = () => {
                         </NavLink>
                     </li>
                 </ul>
-                <Link to='/'>
+                <Link to='/burger-react-ya/'>
                     <Logo/>
                 </Link>
             </div>
