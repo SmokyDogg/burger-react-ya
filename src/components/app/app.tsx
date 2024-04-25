@@ -148,7 +148,7 @@ const App: FC = () => {
 						<OrderInfoPage/>
 					</div>
 				</Route>
-				<Route exact path="/burger-react-ya/">
+				<Route exact path="/">
 					<HomePage openModalIngredient={openModalIngredient} openModalOrder={openModalOrder}/>
 				</Route>
 				<Route>
